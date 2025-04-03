@@ -12,9 +12,9 @@ namespace Infrastructure
         public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration configuration)
         {
             services.AddDbContext<AppDbContext>(options =>
-                options.UseSqlServer(configuration.GetConnectionString("Default")));
+                options.UseSqlServer(configuration.GetConnectionString("DbPrimary")));
 
-            //services.AddScoped<IProductRepository, ProductRepository>();
+            //services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddUnitOfWorkFactory((uow, provider) =>
             {
                 uow.RegisterUnitOfWork(UnitOfWorkType.DbPrimary, provider.GetRequiredService<AppDbContext>());
