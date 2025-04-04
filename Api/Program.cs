@@ -24,6 +24,17 @@ builder.Services.Configure<JsonOptions>(opt =>
     opt.SerializerOptions.Converters.Add(new JsonStringEnumConverter(JsonNamingPolicy.CamelCase));
 });
 
+string policyName = "AllowAnyOrigin";
+builder.Services.AddCors((opt) =>
+{
+    opt.AddPolicy(policyName, policy =>
+    {
+        policy.SetIsOriginAllowed((_) => true)
+              .AllowAnyHeader()
+              .AllowAnyMethod()
+              .AllowCredentials();
+    });
+});
 
 var app = builder.Build();
 
@@ -32,6 +43,8 @@ if (app.Environment.IsDevelopment())
     app.UseSwagger();
     app.UseSwaggerUI();
 }
+
+app.UseCors(policyName);
 
 app.UseExceptionHandler("/error");
 

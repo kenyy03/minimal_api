@@ -36,6 +36,27 @@ namespace Application.Services
             Ability abilityAdded = await _abilityRepo.AddAsync(ability);
             await _uowApplication.SaveAsync();
             return new AbilityDto(abilityAdded.Id, abilityAdded.Description);
-        } 
+        }
+
+        public async Task<AbilityDto> UpdateAbility(AbilityDto request)
+        {
+            Ability? ability = await _abilityRepo.AsQueryable()
+                .FirstOrDefaultAsync(f => f.Id == request.Id);
+
+            if (ability is null)
+            {
+                throw new ArgumentNullException(nameof(ability));
+            }
+            ability.Description = request.Description;
+            await _uowApplication.SaveAsync();
+            return new AbilityDto(ability.Id, ability.Description);
+        }
+
+        public async Task<Guid> DeleteAbility(Guid id)
+        {
+            await _abilityRepo.Delete(id);
+            await _uowApplication.SaveAsync();
+            return id;
+        }
     }
 }

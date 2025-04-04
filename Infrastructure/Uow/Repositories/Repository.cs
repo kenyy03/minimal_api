@@ -31,7 +31,17 @@ namespace Infrastructure.Uow.Repositories
             }
         }
 
+        public async Task Delete(Guid id)
+        {
+            var entity = await FindByIdAsync(id);
+            if (entity is not null)
+            {
+                _entities.Remove(entity);
+            }
+        }
+
         public async Task<T?> FindByIdAsync(int id) => await _entities.FindAsync(id);
+        public async Task<T?> FindByIdAsync(Guid id) => await _entities.FindAsync(id);
 
         public IEnumerable<T> GetAll() => _entities.AsEnumerable();
 
