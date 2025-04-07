@@ -36,6 +36,8 @@ builder.Services.AddCors((opt) =>
     });
 });
 
+builder.Services.AddHealthChecks();
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
@@ -45,7 +47,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseCors(policyName);
-
+app.UseHealthChecks("/healthcheck");
 app.UseExceptionHandler("/error");
 
 // Endpoints
