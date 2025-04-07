@@ -7,7 +7,7 @@ on:
       - main
 
 env: 
-  AZURE_WEBAPP_NAME: minimap-api-service
+  AZURE_WEBAPP_NAME: minimal-api-01
   AZURE_WEBAPP_PACKAGE_PATH: "./Api/publish"
   DOTNET_VERSION: "8.x"
   SOLUTION_PATH: "CleanMinimalApi.sln"
